@@ -94,7 +94,7 @@ def main():
 
     def sighandler(signal_received, frame):
         # Handle any cleanup here
-        print('SIGINT or CTRL-C detected. Exiting gracefully')
+        printColored("red", '\nSIGINT or CTRL-C detected. Exiting gracefully')
         httpd.server_close()
         exit(0)
 
@@ -129,7 +129,7 @@ def main():
                 printColored("white", payloadStr + "\n")
         printColored("yellow", "Waiting for requests...")
         httpd.serve_forever()
-    except KeyboardInterrupt():
+    except KeyboardInterrupt:
         httpd.server_close()
 
 
