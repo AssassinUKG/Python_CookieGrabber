@@ -90,8 +90,6 @@ def main():
     parser.add_argument('-p','--port',help='Port to listen on', default='8082')
     args = parser.parse_args()
 
-    print(args.port)
-
     PORT = int(args.port)
 
     def sighandler(signal_received, frame):
