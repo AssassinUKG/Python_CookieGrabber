@@ -1,4 +1,4 @@
-# Python CookieGrabber
+# Python 3 HTTP Cookie Grabber
 A cookie grabber for webrequests
 
 ## Usage
